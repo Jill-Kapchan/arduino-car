@@ -195,6 +195,5 @@ void loop()
   // stopMove();
   // delay(2000);
 
-  rightAnalog();
-  forward();
+  wander();
 }
