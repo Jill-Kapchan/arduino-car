@@ -1,4 +1,5 @@
 #include "Vector2D.h"
+#include "Car.h"
 
 //Right motor
 #define ENB 5
@@ -194,6 +195,10 @@ void loop()
   // decelerate();
   // stopMove();
   // delay(2000);
-
-  wander();
+  
+  Car car(IN1, IN2, IN3, IN4, ENA, ENB);
+  while(true != false)
+  {
+    car.forward();
+  }
 }
