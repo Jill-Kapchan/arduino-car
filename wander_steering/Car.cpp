@@ -10,8 +10,8 @@ Car::Car(byte in1, byte in2, byte in3, byte in4, byte ena, byte enb)
     this -> ena = ena;
     this -> enb = enb;
 
-    this -> xSpeed = 0;
-    this -> ySpeed = 0;
+    this -> lSpeed = 255;
+    this -> rSpeed = 255;
 
     init();
 }
@@ -27,43 +27,63 @@ void Car::init()
   pinMode(enb, OUTPUT);
 }
 
-int Car::getXSpeed()
+//-------------------------------------------------------------
+// Accessors
+//-------------------------------------------------------------
+int Car::getLeftSpeed()
 {
-    return xSpeed;
-};
+  return lSpeed;
+}
 
-int Car::getYSpeed()
+int Car::getRightSpeed()
 {
-    return ySpeed;
-};
+  return rSpeed;
+}
 
 int Car::getSpeed()
 {
-    // Calculate speed
+  return speed;
 }
 
-void Car::setXSpeed(double xSpeed)
+//-------------------------------------------------------------
+// Mutators
+//-------------------------------------------------------------
+void Car::setLeftSpeed(int lSpeed)
 {
-    this -> xSpeed = xSpeed;
+  this -> lSpeed = lSpeed;
 }
 
-void Car::setYSpeed(double ySpeed)
+void Car::setRightSpeed(int rSpeed)
 {
-    this -> ySpeed = ySpeed;
+  this -> rSpeed = rSpeed;
 }
 
-void Car::stop()
+void Car::setSpeed(int speed)
 {
-  analogWrite(ena, 0); //speed = 0
+  this -> speed = speed;
+}
+
+//-------------------------------------------------------------
+//  ENA   ENB   IN1   IN2   IN3   IN4   Description
+//  HIGH  HIGH  LOW   HIGH  LOW   HIGH  Car is turning left
+//-------------------------------------------------------------
+void Car::stopMove()
+{
+  //speed = 0
+  analogWrite(ena, 0);
   analogWrite(enb, 0);
 
   Serial.println("Stop");
 }
 
+//-------------------------------------------------------------
+//  ENA   ENB   IN1   IN2   IN3   IN4   Description
+//  HIGH  HIGH  LOW   HIGH  LOW   HIGH  Car is turning left
+//-------------------------------------------------------------
 void Car::left()
 {
-  digitalWrite(ena, HIGH);
-  digitalWrite(enb, HIGH);
+  digitalWrite(ena, speed);
+  digitalWrite(enb, speed);
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
   digitalWrite(in3, LOW);
@@ -72,10 +92,14 @@ void Car::left()
   Serial.println("Left");
 }
 
+//-------------------------------------------------------------
+//  ENA   ENB   IN1   IN2   IN3   IN4   Description
+//  HIGH  HIGH  HIGH  LOW   HIGH  LOW   Car is turning right
+//-------------------------------------------------------------
 void Car::right()
 {
-  digitalWrite(ena, HIGH);
-  digitalWrite(enb, HIGH);
+  digitalWrite(ena, speed);
+  digitalWrite(enb, speed);
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW);
   digitalWrite(in3, HIGH);
@@ -84,18 +108,30 @@ void Car::right()
   Serial.println("Right");
 }
 
+//-------------------------------------------------------------
+//  ENA   ENB   IN1   IN2   IN3   IN4   Description
+//  HIGH  HIGH  HIGH  LOW   LOW   HIGH  Car is runing forward
+//-------------------------------------------------------------
 void Car::forward()
 {
+  digitalWrite(ena, speed);
+  digitalWrite(enb, speed);
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW);
   digitalWrite(in3, LOW);
-  digitalWrite(in3, HIGH);
+  digitalWrite(in4, HIGH);
 
   Serial.println("Forward");
 }
 
+//-------------------------------------------------------------
+//  ENA   ENB   IN1   IN2   IN3   IN4   Description
+//  HIGH  HIGH  LOW   HIGH  HIGH  LOW   Car is runing back
+//-------------------------------------------------------------
 void Car::reverse()
 {
+  digitalWrite(ena, speed);
+  digitalWrite(enb, speed);
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
   digitalWrite(in3, HIGH);
@@ -104,7 +140,7 @@ void Car::reverse()
   Serial.println("Reverse");
 }
 
-void Car::accelerate(double maxSpeed)
+void Car::accelerate()
 {
   for (int i = 0; i <= 255; i++)
   {
@@ -114,7 +150,7 @@ void Car::accelerate(double maxSpeed)
   }
 }
 
-void Car::decelerate(double minSpeed)
+void Car::decelerate()
 {
   for (int i = 255; i >= 0; i--)
   {
@@ -122,4 +158,9 @@ void Car::decelerate(double minSpeed)
     analogWrite(ena, i);
     delay(20);
   }
+}
+
+void Car::test()
+{ 
+  Serial.println("Left");
 }
