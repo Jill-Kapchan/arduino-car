@@ -2,6 +2,7 @@
 #define CAR_H
 
 #include <Arduino.h>
+//#include <random>
 
 // --------------------------------------------------------------------------------
 // MD-L298 Motor Driver Module Truth Table
@@ -45,6 +46,11 @@ class Car
     int lSpeed;
     int rSpeed;
     int speed;
+
+    double x;
+    double y;
+    double wanderAngle;
+
   public:
     Car(byte in1, byte in2, byte in3, byte in4, byte ena, byte enb);
     ~Car();
@@ -55,10 +61,18 @@ class Car
     int getRightSpeed();
     int getSpeed();
 
+    double getX();
+    double getY();
+    double getWanderAngle();
+
     // Setters
     void setLeftSpeed(int lSpeed);
     void setRightSpeed(int rSpeed);
     void setSpeed(int speed);
+
+    void setX(double x);
+    void setY(double y);
+    void setWanderAngle(double angle);
 
     // Movement functions
     void stopMove();
@@ -72,7 +86,8 @@ class Car
     // Analog movements
     void leftAnalog();
     void rightAnalog();
+    double updateWanderAngle();
     void test();
+    
 };
-
 #endif

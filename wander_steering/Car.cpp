@@ -13,6 +13,11 @@ Car::Car(byte in1, byte in2, byte in3, byte in4, byte ena, byte enb)
     this -> lSpeed = 255;
     this -> rSpeed = 255;
     this -> speed = 255;
+
+    this -> x = 300.0;
+    this -> y = 100.0;
+    this -> wanderAngle = 0.0;
+
     init();
 }
 
@@ -50,6 +55,21 @@ int Car::getSpeed()
   return speed;
 }
 
+double Car::getX()
+{
+  return x;
+}
+
+double Car::getY()
+{
+  return y;
+}
+
+double Car::getWanderAngle()
+{
+  return wanderAngle;
+}
+
 //-------------------------------------------------------------
 // Mutators
 //-------------------------------------------------------------
@@ -68,6 +88,23 @@ void Car::setSpeed(int speed)
   this -> speed = speed;
 }
 
+void Car::setX(double x)
+{
+  this -> x = x;
+}
+
+void Car::setY(double y)
+{
+  this -> y = y;
+}
+
+void Car::setWanderAngle(double angle)
+{
+  this -> wanderAngle = angle;
+}
+
+//-------------------------------------------------------------
+// Movement
 //-------------------------------------------------------------
 //  ENA   ENB   IN1   IN2   IN3   IN4   Description
 //  HIGH  HIGH  LOW   HIGH  LOW   HIGH  Car is turning left
@@ -163,6 +200,15 @@ void Car::decelerate()
     analogWrite(ena, i);
     delay(20);
   }
+}
+
+//-------------------------------------------------------------
+// Miscellaneous
+//-------------------------------------------------------------
+double Car::updateWanderAngle()
+{
+  // Random number between [-1, 1]
+  wanderAngle += -1 + 2 * ((double)rand()) / RAND_MAX;
 }
 
 void Car::test()

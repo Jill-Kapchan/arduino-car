@@ -14,6 +14,10 @@
 // Create a car object for car movement
 Car car(IN1, IN2, IN3, IN4, ENA, ENB);
 
+// TODO: Change the value depending on the units for velocity
+int CIRCLE_DISTANCE = 10;
+int CIRCLE_RADIUS = 3;
+
 //----------------------------------------------
 // Setup
 //----------------------------------------------
@@ -25,7 +29,7 @@ void setup()
 //----------------------------------------------
 // Wander algorithm
 //----------------------------------------------
-void wander()
+void vectorTest()
 {
   Vector2D v1(5.0, 5.0);
   Vector2D v2(2.0, 2.0);
@@ -42,8 +46,37 @@ void wander()
   Serial.println("v1.x=" + String(v.getY()));
 #endif
 
+  Vector2D v(200, 100);
+  v.setAngle(0.785398);
+
+  Serial.println(v.getX());
+  Serial.println(v.getY());
+
   bool isT = true;
   while (isT != false) {};
+}
+
+Vector2D wander()
+{
+  // Calculating the circle's position
+  Vector2D circleCenter(car.getX(), car.getY());
+  circleCenter.normalize();
+  circleCenter.mult(CIRCLE_DISTANCE);
+
+  // Displacement force
+  Vector2D displacement(0, -1);
+  displacement.mult(CIRCLE_RADIUS);
+
+  // Randomly change the vector direction by
+  // making it change its current angle
+  displacement.setAngle(car.getWanderAngle());
+  
+  // Prepare the car for the next interation
+  car.updateWanderAngle();
+
+  // Wander force
+  circleCenter.add(displacement);
+  return circleCenter;
 }
 
 //----------------------------------------------
@@ -51,12 +84,11 @@ void wander()
 //----------------------------------------------
 void loop()
 {
-  Vector2D v(200, 100);
-  v.setAngle(0.785398);
+  Vector2D steering = wander();
+  Serial.println(steering.getX());
 
-  Serial.println(v.getX());
-  Serial.println(v.getY());
-  
-  //car.test();
-  delay(2000);  
+  while(true != false)
+  {
+
+  }
 }
