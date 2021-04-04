@@ -11,9 +11,15 @@ class Vector2D
     
   public:
     Vector2D(double x, double y);
+    ~Vector2D();
+    
     double getX();
     double getY();
-    
+
+    void setX(double x);
+    void setY(double y);
+    void setAngle(double angle);
+
     void add(Vector2D v);
     static Vector2D sub(Vector2D v1, Vector2D v2);
     void mult(double scalar);

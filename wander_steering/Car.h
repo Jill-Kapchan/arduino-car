@@ -3,6 +3,17 @@
 
 #include <Arduino.h>
 
+// --------------------------------------------------------------------------------
+// MD-L298 Motor Driver Module Truth Table
+// IN1/IN3  IN2/IN4  Result
+//    0        1     Clockwise
+//    1        0     Counterclockwise
+// Source: https://www.instructables.com/Tutorial-for-MD-L298-Motor-Driver-Module/
+// --------------------------------------------------------------------------------
+// Example:
+// The forward movement has truth table values of: 1, 0, 0, 1.
+// This corresponds to clockwise on the right motor and ccw on the left motor.
+// --------------------------------------------------------------------------------
 //    The direction of the car's movement
 //  ENA   ENB   IN1   IN2   IN3   IN4   Description
 //  HIGH  HIGH  HIGH  LOW   LOW   HIGH  Car is runing forward
@@ -12,12 +23,12 @@
 //  HIGH  HIGH  LOW   LOW   LOW   LOW   Car is stoped
 //  HIGH  HIGH  HIGH  HIGH  HIGH  HIGH  Car is stoped
 //  LOW   LOW   N/A   N/A   N/A   N/A   Car is stoped
-
+// --------------------------------------------------------------------------------
 // PWM: https://www.arduino.cc/en/Tutorial/Foundations/PWM
 // Note: The car's motors will start humming when the analog
 // value/PWM wave is less than 100. Need to make sure the value
 // is over 100 for the motor to turn.
-
+// --------------------------------------------------------------------------------
 
 class Car
 {
@@ -33,9 +44,10 @@ class Car
 
     int lSpeed;
     int rSpeed;
-
+    int speed;
   public:
     Car(byte in1, byte in2, byte in3, byte in4, byte ena, byte enb);
+    ~Car();
     void init();
     
     // Accessors

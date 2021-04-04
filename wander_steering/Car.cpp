@@ -12,8 +12,13 @@ Car::Car(byte in1, byte in2, byte in3, byte in4, byte ena, byte enb)
 
     this -> lSpeed = 255;
     this -> rSpeed = 255;
-
+    this -> speed = 255;
     init();
+}
+
+Car::~Car()
+{
+  Serial.println("Car destroyed");
 }
 
 void Car::init()
@@ -162,5 +167,8 @@ void Car::decelerate()
 
 void Car::test()
 { 
+  digitalWrite(enb, speed);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
   Serial.println("Left");
 }

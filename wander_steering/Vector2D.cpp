@@ -6,6 +6,11 @@ Vector2D::Vector2D(double x, double y)
   this -> y = y;
 }
 
+Vector2D::~Vector2D()
+{
+  Serial.println("Vector destroyed");
+}
+
 double Vector2D::getX()
 {
   return x;
@@ -14,6 +19,24 @@ double Vector2D::getX()
 double Vector2D::getY()
 {
   return y;
+}
+
+void Vector2D::setX(double x)
+{
+  this -> x = x;
+}
+
+void Vector2D::setY(double y)
+{
+  this -> y = y;
+}
+
+// sin/cos takes in RADIANS
+void Vector2D::setAngle(double angle)
+{
+  double len = this -> magnitude();
+  this -> x = cos(angle) * len;
+  this -> y = sin(angle) * len;
 }
 
 void Vector2D::add(Vector2D v)

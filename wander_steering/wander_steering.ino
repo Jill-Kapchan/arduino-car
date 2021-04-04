@@ -51,6 +51,12 @@ void wander()
 //----------------------------------------------
 void loop()
 {
-  car.test();
+  Vector2D v(200, 100);
+  v.setAngle(0.785398);
+
+  Serial.println(v.getX());
+  Serial.println(v.getY());
+  
+  //car.test();
   delay(2000);  
 }
