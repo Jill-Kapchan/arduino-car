@@ -1,60 +1,74 @@
 #include "SoftwareSerial.h"
 // TX on 10
 // RX on 11
-//SoftwareSerial serial_connection(10, 11);//Create a serial connection with TX and RX on these pins
+//SoftwareSerial serial_connection(10, 11);
 
 #define TxD 0
 #define RxD 1
-SoftwareSerial serial_connection(TxD, RxD);//Create a serial connection with TX and RX on these pins
+SoftwareSerial serial_connection(TxD, RxD);
+#define BUFFER_SIZE 64
 
-#define BUFFER_SIZE 64//This will prevent buffer overruns.
-char inData[BUFFER_SIZE];//This is a character buffer where the data sent by the python script will go.
-char inChar = -1; //Initialie the first character as nothing
-int count = 0; //This is the number of lines sent in from the python script
-int i = 0; //Arduinos are not the most capable chips in the world so I just create the looping variable once
+
+//This is a character buffer where the data sent by the python script will go.
+char inData[BUFFER_SIZE];
+char inChar = -1;
+
+//This is the number of lines sent in from the python script
+int count = 0;
+int i = 0;
 
 void setup()
 {
-  Serial.begin(9600);//Initialize communications to the serial monitor in the Arduino IDE
-  serial_connection.begin(9600);//Initialize communications with the bluetooth module
-  serial_connection.println("Ready!!!");//Send something to just start comms. This will never be seen.
-  Serial.println("Started");//Tell the serial monitor that the sketch has started.
+  Serial.begin(9600);
+  serial_connection.begin(9600);
+  serial_connection.println("Ready!!!");
+  Serial.println("Started");
 }
 
 void loop()
 {
   //This will prevent bufferoverrun errors
-  byte byte_count = serial_connection.available(); //This gets the number of bytes that were sent by the python script
-  if (byte_count) //If there are any bytes then deal with them
+  //This gets the number of bytes that were sent by the python script
+  byte byte_count = serial_connection.available();
+  
+  if (byte_count)
   {
-    Serial.println("Incoming Data");//Signal to the monitor that something is happening
-    int first_bytes = byte_count; //initialize the number of bytes that we might handle.
-    int remaining_bytes = 0; //Initialize the bytes that we may have to burn off to prevent a buffer overrun
-    if (first_bytes >= BUFFER_SIZE - 1) //If the incoming byte count is more than our buffer...
+    Serial.println("Incoming Data");
+    int first_bytes = byte_count;
+    int remaining_bytes = 0;
+    if (first_bytes >= BUFFER_SIZE - 1)
     {
-      remaining_bytes = byte_count - (BUFFER_SIZE - 1); //Reduce the bytes that we plan on handleing to below the buffer size
+      remaining_bytes = byte_count - (BUFFER_SIZE - 1);
     }
+    
     for (i = 0; i < first_bytes; i++) //Handle the number of incoming bytes
     {
       inChar = serial_connection.read(); //Read one byte
       inData[i] = inChar; //Put it into a character string(array)
     }
-    inData[i] = '\0'; //This ends the character array with a null character. This signals the end of a string
-    if (String(inData) == "BOOP 2") //This could be any motor start string we choose from the python script
+
+    //This ends the character array with a null character. This signals the end of a string
+    inData[i] = '\0'; 
+    if (String(inData) == "A")
     {
-      Serial.println("********* Start Motor *********");
+      Serial.println("Letter A");
     }
-    else if (String(inData) == "BOOP 4") //Again this is an arbitrary choice. It would probably be something like: MOTOR_STOP
+    else if (String(inData) == "B")
     {
-      Serial.println("********* STOP Motor *********");
+      Serial.println("LETTER B");
     }
-    for (i = 0; i < remaining_bytes; i++) //This burns off any remaining bytes that the buffer can't handle.
+    for (i = 0; i < remaining_bytes; i++)
     {
       inChar = serial_connection.read();
     }
-    Serial.println(inData);//Print to the monitor what was detected
-    serial_connection.println("Hello from Blue " + String(count)); //Then send an incrmented string back to the python script
-    count++;//Increment the line counter
+    
+    Serial.println(inData);
+    serial_connection.println("Hello from Blue " + String(count));
+    count++;
   }
-  delay(100);//Pause for a moment
+  else
+  {
+    Serial.println("Not connected");
+  }
+  delay(1000);
 }

@@ -1,3 +1,10 @@
+//--------------------------------------------------------------------------------
+// Name: Jill Kapchan
+// CSE 494: Intro to Robotics
+// Description: This header file contains all the method prototypes for forward
+//              declarations of the class Vector2D.cpp
+//--------------------------------------------------------------------------------
+
 #ifndef VECTOR_2D_H
 #define VECTOR_2D_H
 

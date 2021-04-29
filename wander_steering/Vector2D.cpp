@@ -1,3 +1,12 @@
+//--------------------------------------------------------------------------------
+// Name: Jill Kapchan
+// CSE 494: Intro to Robotics
+// Description: This cpp file contains all the function prototypes declared in the
+//              header file. The class Vector contains all the functionality to
+//              complete simplified versions of the vector calculations needed to
+//              implement steering behaviors.
+//--------------------------------------------------------------------------------
+
 #include "Vector2D.h"
 
 Vector2D::Vector2D(double x, double y)

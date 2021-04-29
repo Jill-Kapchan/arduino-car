@@ -1,3 +1,10 @@
+//--------------------------------------------------------------------------------
+// Name: Jill Kapchan
+// CSE 494: Intro to Robotics
+// Description: This header file contains all the method prototypes for forward
+//              declarations of the class Car.cpp
+//--------------------------------------------------------------------------------
+
 #ifndef CAR_H
 #define CAR_H
 
@@ -15,7 +22,9 @@
 // The forward movement has truth table values of: 1, 0, 0, 1.
 // This corresponds to clockwise on the right motor and ccw on the left motor.
 // --------------------------------------------------------------------------------
-//    The direction of the car's movement
+// The following truth table is from the example code that the car came with.
+//
+//        The direction of the car's movement
 //  ENA   ENB   IN1   IN2   IN3   IN4   Description
 //  HIGH  HIGH  HIGH  LOW   LOW   HIGH  Car is runing forward
 //  HIGH  HIGH  LOW   HIGH  HIGH  LOW   Car is runing back
@@ -24,11 +33,12 @@
 //  HIGH  HIGH  LOW   LOW   LOW   LOW   Car is stoped
 //  HIGH  HIGH  HIGH  HIGH  HIGH  HIGH  Car is stoped
 //  LOW   LOW   N/A   N/A   N/A   N/A   Car is stoped
+//
+// Disclaimer: I did not develop this truth table.
 // --------------------------------------------------------------------------------
 // PWM: https://www.arduino.cc/en/Tutorial/Foundations/PWM
-// Note: The car's motors will start humming when the analog
-// value/PWM wave is less than 100. Need to make sure the value
-// is over 100 for the motor to turn.
+// Note: The car's motors will start humming when the analog value/PWM wave is 
+// less than 100. Need to make sure the value is over 100 for the motor to turn.
 // --------------------------------------------------------------------------------
 
 class Car

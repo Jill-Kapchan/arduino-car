@@ -1,7 +1,16 @@
+//--------------------------------------------------------------------------------
+// Name: Jill Kapchan
+// CSE 494: Intro to Robotics
+// Description: This cpp file contains all the function prototypes declared in the
+//              header file. The class Car contains all the functionality for an
+//              OOP approach to driving an Arduino car.
+//--------------------------------------------------------------------------------
+
 #include "Car.h"
 
 Car::Car(byte in1, byte in2, byte in3, byte in4, byte ena, byte enb)
 {
+    Serial.println("Car initialized");
     this -> in1 = in1;
     this -> in2 = in2;
     this -> in3 = in3;
