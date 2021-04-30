@@ -171,9 +171,5 @@ void randomMovement()
 //--------------------------------------------------------------------------------
 void loop()
 {
-  Vector2D steering = wander();
-  Serial.println(steering.getX());
-  Serial.println(steering.getY());
-
   randomMovement();
 }
