@@ -218,6 +218,7 @@ double Car::updateWanderAngle()
 {
   // Random number between [-1, 1]
   wanderAngle += -1 + 2 * ((double)rand()) / RAND_MAX;
+  return wanderAngle;
 }
 
 void Car::test()

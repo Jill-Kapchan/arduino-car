@@ -3,7 +3,6 @@
 // CSE 494: Intro to Robotics
 // Description: This is the driver file for the car's logic.
 //--------------------------------------------------------------------------------
-
 #include "Vector2D.h"
 #include "Car.h"
 
@@ -24,12 +23,27 @@ Car car(IN1, IN2, IN3, IN4, ENA, ENB);
 int CIRCLE_DISTANCE = 10;
 int CIRCLE_RADIUS = 3;
 
+// Bluetooth
+#include "SoftwareSerial.h"
+#define TxD 0
+#define RxD 1
+SoftwareSerial serial_connection(TxD, RxD);
 //--------------------------------------------------------------------------------
 // Setup
 //--------------------------------------------------------------------------------
 void setup()
 {
   Serial.begin(9600);
+
+  // Bluetooth is on a different baud rate to minimize errors
+  serial_connection.begin(38400);
+  serial_connection.println("Started");
+
+  // Clear buffer
+  while(serial_connection.available())
+  {
+    serial_connection.read();
+  }
 }
 
 //--------------------------------------------------------------------------------
@@ -89,17 +103,52 @@ Vector2D wander()
   return circleCenter;
 }
 
+// Check Bluetooth connections
+bool receivedBluetoothSignal()
+{
+  byte inBytes = serial_connection.available();
+  if(inBytes > 0)
+  {
+    serial_connection.println("Receiving data");
+
+    // Need to clear the buffer
+    while(serial_connection.available())
+    {
+      serial_connection.read();
+    }
+    return true;
+  }
+  else
+  {
+    // No bluetooth signal
+    return false;
+  }
+}
+
 //--------------------------------------------------------------------------------
 // Main loop
 //--------------------------------------------------------------------------------
 void loop()
 {
   Vector2D steering = wander();
-  Serial.println(steering.getX());
-  Serial.println(steering.getY());
+  //Serial.println(steering.getX());
+  //Serial.println(steering.getY());
 
-  while(true != false)
+  car.setSpeed(120);
+  delay(10000);
+  while(true)
   {
-
+    // Saw an object to avoid
+    if(receivedBluetoothSignal())
+    {
+      serial_connection.println("Received signal");
+      car.stopMove();
+      // Stop the car for 5 seconds
+      delay(5000);
+    }
+    else
+    {
+      car.right();
+    }
   }
 }
