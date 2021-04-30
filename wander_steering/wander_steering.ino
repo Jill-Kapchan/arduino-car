@@ -72,8 +72,8 @@ void vectorTest()
   Serial.println(v.getX());
   Serial.println(v.getY());
 
-  bool isT = true;
-  while (isT != false) {};
+  Vector2D w = wander();
+  
 }
 
 //--------------------------------------------------------------------------------
@@ -125,18 +125,11 @@ bool receivedBluetoothSignal()
   }
 }
 
-//--------------------------------------------------------------------------------
-// Main loop
-//--------------------------------------------------------------------------------
-void loop()
+void bluetoothLoop()
 {
-  Vector2D steering = wander();
-  //Serial.println(steering.getX());
-  //Serial.println(steering.getY());
-
   car.setSpeed(120);
   delay(10000);
-  while(true)
+  while(true == false)
   {
     // Saw an object to avoid
     if(receivedBluetoothSignal())
@@ -151,4 +144,36 @@ void loop()
       car.right();
     }
   }
+}
+
+void randomMovement()
+{
+  int randomNum = random(1,4);
+  switch(randomNum)
+  {
+    case 1:
+      car.forward();
+      break;
+    case 2:
+      car.left();
+      break;
+    case 3:
+      car.right();
+      break;
+    default:
+      car.stopMove();
+  }
+  delay(500);
+}
+
+//--------------------------------------------------------------------------------
+// Main loop
+//--------------------------------------------------------------------------------
+void loop()
+{
+  Vector2D steering = wander();
+  Serial.println(steering.getX());
+  Serial.println(steering.getY());
+
+  randomMovement();
 }
